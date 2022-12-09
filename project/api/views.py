@@ -3,8 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Farmer
-from .serializers import FarmerSerializer
+from .models import Farmer, Cart
+from .serializers import FarmerSerializer, CartSerializer
 @api_view(['GET'])
 def getRoutes(request):
 
@@ -84,3 +84,23 @@ def deleteFarmer(request,pk):
     farmer = Farmer.objects.get(id=pk)
     farmer.delete()
     return Response("Farmer was deleted")
+
+
+@api_view(['POST'])
+def createCart(request):
+    data = request.data
+    name = data['name']
+    farmer = Farmer.objects.get(name=name)
+    cart = Cart.objects.create(
+        farmer=farmer,
+        cart_holds=data['cart_holds'],
+        name=name
+    )
+    serializer = CartSerializer(cart,many=False )
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getAllCarts(request):
+    carts = Cart.objects.all()
+    serializer = CartSerializer(carts, many=True)
+    return Response(serializer.data)

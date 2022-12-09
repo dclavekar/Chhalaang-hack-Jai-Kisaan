@@ -7,4 +7,6 @@ urlpatterns = [
     path('farmer/create/', views.createFarmer),
     path('farmer/update/<str:pk>', views.updateFarmer),
     path('farmer/delete/<str:pk>', views.deleteFarmer),
+    path('carts/', views.getAllCarts),
+    path('carts/create/', views.createCart),
 ]

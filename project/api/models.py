@@ -9,3 +9,11 @@ class Farmer(models.Model):
         return self.name
 
     
+
+class Cart(models.Model):
+    farmer = models.OneToOneField(Farmer, on_delete=models.CASCADE)
+    cart_holds = models.CharField(max_length=120)
+    name = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.cart_holds
