@@ -8,7 +8,7 @@ from django.template import loader
 from django.http import HttpResponse
 # Create your views here.
 def homepage(request):
-    return HttpResponse("Hi")
+    return render(request, 'welcome.html')
 
 @api_view(['GET'])
 def getAllFarmerPersonalDetails(request):
@@ -42,20 +42,11 @@ def createLandDetails(request):
     data = request.data
     farmer_no = data['farmer_no']
     farmer = FarmerPersonalDetails.objects.get(id=farmer_no)
-
-    # ls=
-
     land = LandDetails.objects.create(        
         farmer=farmer,
         farmer_no = farmer_no,
         address=data['address'],
         area_given=data['area_given'],
-        # area_calculated=data['area_calculated'],
-
-
-
-
-
         cordinate1_x=data['cordinate1_x'],
         cordinate1_y=data['cordinate1_y'],
         cordinate2_x=data['cordinate2_x'],
@@ -65,8 +56,7 @@ def createLandDetails(request):
         cordinate4_x=data['cordinate4_x'],
         cordinate4_y=data['cordinate4_y'],
         n=data['n'],
-        # soil_image=data['soil_image'],
-        # crop_image=data['crop_image'],        
+              
 
     )
     serializer = LandDetailsSerializer(land,many=False )
@@ -79,7 +69,6 @@ def geolocation_map_rendering(request,land):
     cordinate1_y=land.cordinate1_y
     cordinate2_x=land.cordinate2_x
     cordinate2_y=land.cordinate2_y
-
     cordinate3_x=land.cordinate3_x
     cordinate3_y=land.cordinate3_y
     cordinate4_x=land.cordinate4_x
@@ -91,39 +80,44 @@ def geolocation_map_rendering(request,land):
     return l
 
 @api_view(['POST'])
-def fun(request):
+def get_geolocation(request):
     data = request.data
     land_no = data['land_no']
-    land = LandDetails.objects.get(id=land_no)
-
-    
-    
+    land = LandDetails.objects.get(id=land_no)  
     l=geolocation_map_rendering(request,land)
     template = loader.get_template('geolocation.html')
-    context = {
-    
+    context = {    
     'cordinate1_x':l[0][0],
     'cordinate1_y':l[0][1],
     'cordinate2_x':l[1][0],
     'cordinate2_y':l[1][1],
     'cordinate3_x':l[2][0],
     'cordinate3_y':l[2][1],
-
     'cordinate4_x':l[3][0],
-    'cordinate4_y':l[3][1],
-    
-     
-    
+    'cordinate4_y':l[3][1],      
     }
-    
-    # template = loader.get_template('trial.html')
-    # context = {
-    
-    # 'variable':"heeeeeee"
-    
-    # }
-    # return render(request,'geolocation.html', {'cordinate_matrix': "l", })#change to l
+
     return HttpResponse(template.render(context, request))
-    # return HttpResponse("done")
 
 
+@api_view(['POST'])
+def get_images(request):
+    data = request.data
+    soil_img_byte = data['soil_img_byte']
+    soil_img_src = "data:image/png;base64,"+ soil_img_byte
+
+    crop_img_byte = data['crop_img_byte']
+    crop_img_src = "data:image/png;base64,"+ crop_img_byte
+
+    template = loader.get_template('soil.html')
+    context = {    
+    'soil_img_src':soil_img_src,
+    'crop_img_src':crop_img_src,
+    }    
+    return HttpResponse(template.render(context, request))
+
+@api_view(['GET'])
+def all_details_report(request, primary_key):
+    farmers=LandDetails.objects.get(id=primary_key)  
+    context={'details' : farmers,}
+    return render(request, 'report.html', context)

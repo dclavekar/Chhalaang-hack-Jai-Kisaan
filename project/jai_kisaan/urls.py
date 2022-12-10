@@ -9,8 +9,8 @@ urlpatterns = [
    
    path('createFarmerPersonalDetails/',views.createFarmerPersonalDetails),
    path('createLandDetails/',views.createLandDetails),
-   path('geolocation/',views.fun)
-   
-    
+   path('geolocation/',views.get_geolocation),
+   path('getImages/',views.get_images),
+   path('report/<int:primary_key>/',views.all_details_report),      
     
 ]

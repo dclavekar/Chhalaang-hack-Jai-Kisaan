@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <div class="container bootdey flex-grow-1 container-p-y">
+
+    <div class="media align-items-center py-3 mb-3">
+      <div class="media-body ml-4">
+        <h4 class="font-weight-bold mb-0">Field Report</h4>
+        <!-- <div class="text-muted mb-2">ID: 3425433</div> -->
+
+        <a href="javascript:void(0)" class="btn btn-default btn-sm icon-btn"><i class="fa fa-mail"></i></a>
+      </div>
+    </div>
+
+    <div class="card">
+
+      <hr class="border-light m-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-6">
+
+            <table class="table user-view-table m-0">
+              <tbody>
+                <tr>
+                  <td>Farmer No:</td>
+                  <td>{{details.farmer_no}}</td>
+                </tr>
+                <tr>
+                  <td>Farmer Address:</td>
+                  <td>{{details.address}}</td>
+                </tr>
+
+                <tr>
+                  <td>cordinate1_x: </td>
+                  <td>{{details.cordinate1_x}}</td>
+                </tr>
+                <tr>
+                  <td>cordinate1_y: </td>
+                  <td>{{details.cordinate1_y}}</td>
+                </tr>
+
+                <tr>
+                  <td>cordinate3_x: </td>
+                  <td>{{details.cordinate3_x}}</td>
+                </tr>
+                <tr>
+                  <td>cordinate3_y: </td>
+                  <td>{{details.cordinate3_y}}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-6">
+            <table class="table user-view-table m-0">
+              <tbody>
+                <tr>
+                  <td>Area by farmer:</td>
+                  <td>{{details.area_given}}</td>
+                </tr>
+                
+
+                <tr>
+                  <td>cordinate2_x: </td>
+                  <td>{{details.cordinate2_x}}</td>
+                </tr>
+                <tr>
+                  <td>cordinate2_y: </td>
+                  <td>{{details.cordinate2_y}}</td>
+                </tr>
+
+                <tr>
+                  <td>cordinate4_x: </td>
+                  <td>{{details.cordinate4_x}}</td>
+                </tr>
+                <tr>
+                  <td>cordinate4_y: </td>
+                  <td>{{details.cordinate4_y}}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    
+    <button type="button" class="btn btn-primary"  style="float: right;" onclick="window.print()">Print Report</button>
+  
+
+  </div>
+
+  <style type="text/css">
+    body {
+      margin-top: 20px;
+      background: #f5f5f5;
+    }
+
+    .ui-w-100 {
+      width: 100px !important;
+      height: auto;
+    }
+
+    .card {
+      background-clip: padding-box;
+      box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
+    }
+
+    .user-view-table td:first-child {
+      width: 9rem;
+    }
+
+    .user-view-table td {
+      padding-right: 0;
+      padding-left: 0;
+      border: 0;
+    }
+
+    .text-light {
+      color: #babbbc !important;
+    }
+
+    .card .row-bordered>[class*=" col-"]::after {
+      border-color: rgba(24, 28, 33, 0.075);
+    }
+
+    .text-xlarge {
+      font-size: 170% !important;
+    }
+  </style>
+
+  <script type="text/javascript">
+
+  </script>
+
+  
+</body>
+
+</html>

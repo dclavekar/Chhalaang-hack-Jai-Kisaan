@@ -26,9 +26,9 @@ class LandDetails(models.Model):
     cordinate4_x = models.FloatField()
     cordinate4_y = models.FloatField()
     n=models.IntegerField(default=4) #no of edges of the land
-
-    # soil_image = models.ImageField(upload_to='images/landDetails/soil_images')
-    # crop_image  = models.ImageField(upload_to='images/landDetails/crop_images')
+    # soil_img_byte = models.CharField(max_length=150)
+    soil_image = models.ImageField(upload_to='images/landDetails/soil_images',null=True)
+    crop_image  = models.ImageField(upload_to='images/landDetails/crop_images',null=True)
 
     def __str__(self):
         return "Land of: "+ str(self.farmer.first_name)
