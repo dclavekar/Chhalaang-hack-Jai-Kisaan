@@ -9,6 +9,7 @@ urlpatterns = [
    
    path('createFarmerPersonalDetails/',views.createFarmerPersonalDetails),
    path('createLandDetails/',views.createLandDetails),
+   path('geolocation/',views.fun)
    
     
     

@@ -16,7 +16,7 @@ class LandDetails(models.Model):
     farmer = models.OneToOneField(FarmerPersonalDetails, on_delete=models.CASCADE)
     address = models.TextField()
     area_given = models.FloatField()
-    area_calculated = models.FloatField()
+    
     cordinate1_x = models.FloatField()
     cordinate1_y = models.FloatField()
     cordinate2_x = models.FloatField()

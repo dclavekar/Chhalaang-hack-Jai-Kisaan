@@ -1,13 +1,151 @@
-{% load static %}
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Leaflet polygon with area</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+    <style type="text/css">
+        #map {
+            height: 500px;
+            width: 700px;
+        }
+
+        .area-tooltip {
+            background: #363636;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: #f8d5e4;
+        }
+    </style>
 </head>
 <body>
-    HI!
+    <div id="map"></div>
+    <script>
+        function createAreaTooltip(layer) {
+            if(layer.areaTooltip) {
+                return;
+            }
 
+            layer.areaTooltip = L.tooltip({
+                permanent: true,
+                direction: 'center',
+                className: 'area-tooltip'
+            });
+
+            layer.on('remove', function(event) {
+                layer.areaTooltip.remove();
+            });
+
+            layer.on('add', function(event) {
+                updateAreaTooltip(layer);
+                layer.areaTooltip.addTo(map);
+            });
+
+            if(map.hasLayer(layer)) {
+                updateAreaTooltip(layer);
+                layer.areaTooltip.addTo(map);
+            }
+        }
+
+        function updateAreaTooltip(layer) {
+            var area = L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]);
+            var readableArea = L.GeometryUtil.readableArea(area, true);
+            var latlng = layer.getCenter();
+
+            layer.areaTooltip
+                .setContent(readableArea)
+                .setLatLng(latlng);
+        }
+        // var a = "{{cordinate1_x}}";
+        // var cordinate1_x= "{{cordinate1_x}}";
+        // var cordinate1_y= "{{cordinate1_y}}";
+        // var cordinate2_x= "{{cordinate2_x}}";
+        // var cordinate2_y= "{{cordinate2_y}}";      
+        // var cordinate3_x= "{{cordinate3_x}}";        
+        // var cordinate3_y= "{{cordinate3_y}}";
+        // var cordinate4_x= "{{cordinate4_x}}";
+        // var cordinate4_y= "{{cordinate4_y}}";
+        var x1="{{cordinate1_x}}";
+        var y1="{{cordinate1_y}}";
+        var x2="{{cordinate2_x}}";
+        var y2="{{cordinate2_y}}";
+        var x3="{{cordinate3_x}}";
+        var y3="{{cordinate3_y}}";
+        var x4="{{cordinate4_x}}";
+        var y4="{{cordinate4_y}}";
+
+       
+        var map = L.map('map').setView([x1,y1], 13); //Setting the center and the zoom of the map
+
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+       
+        
+        
+        // For now edges=4
+        // Taking input as a list of coordinates.
+       var  list_of_coordinates=[[x1,y1],[x2,y2],[x3,y3],[x4,y4]]
+        // var list_of_coordinates = [[]]
+        console.log(list_of_coordinates)
+        var polygon=L.polygon(list_of_coordinates).addTo(map);
+
+        /*var polygon = L.polygon([ 
+
+            [51.509, -0.12],
+            [51.503, -0.06],
+            [51.51, -0.047],
+            [51.512,-0.048],
+            
+        ]).addTo(map);*/
+
+        createAreaTooltip(polygon);
+
+        
+
+        var drawnItems = L.featureGroup().addTo(map);
+
+        map.addControl(new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems,
+                poly: {
+                    allowIntersection: false
+                }
+            },
+            draw: {
+                marker: false,
+                circle: false,
+                circlemarker: false,
+                rectangle: false,
+                polyline: false,
+                polygon: {
+                    allowIntersection: false,
+                    showArea: true
+                }
+            }
+        }));
+
+        map.on(L.Draw.Event.CREATED, function(event) {
+            var layer = event.layer;
+
+            if(layer instanceof L.Polygon) {
+                createAreaTooltip(layer);
+            }
+
+            drawnItems.addLayer(layer);
+        });
+
+        map.on(L.Draw.Event.EDITED, function(event) {
+            event.layers.getLayers().forEach(function(layer) {
+                if(layer instanceof L.Polygon) {
+                    updateAreaTooltip(layer);
+                }
+            })
+        });
+
+    </script>
 </body>
 </html>
